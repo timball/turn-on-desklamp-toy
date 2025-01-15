@@ -21,7 +21,7 @@ source sekrits.sh
 
 DEVICE=$(echo ${HASS_DEVICE} | cut -d'.' -f1)
 
-curl_hass () {
+function Curl_Hass () {
     #echo "${1}"
 
     curl --location "${HASS_BASE_URL}/api/services/${DEVICE}/${1}" \
@@ -33,8 +33,8 @@ curl_hass () {
 
 }
 
-log stream --predicate 'subsystem == "com.apple.UVCExtension" and composedMessage contains "Post PowerLog"' | while read line; do
-
+log stream --predicate 'subsystem == "com.apple.UVCExtension" and composedMessage contains "Post PowerLog"' | while read line
+do
     if echo "$line" | grep -E '"VDCAssistant_Power_State" = On;' > /dev/null; then
         curl_hass "turn_on"
     fi
