@@ -1,0 +1,7 @@
+# HASS_BASE_URL = [URL OF HASS aka http://host:8123]
+# BEARER_TOKEN = [from Home Assistant profile LONG_LIVE_TOKEN]
+# HASS_DEVICE = [device to toggle aka switch.gosund_wp3_relay or light.kitchen] it is important that HASS_DEVICE in form of device.item
+
+HASS_BASE_URL=http://home-assistant-ip-or-url:8123
+BEARER_TOKEN=your-bearer-token-from-home-assistant-long-lived-tokens
+HASS_DEVICE=device.name
