@@ -36,9 +36,9 @@ function Curl_Hass () {
 log stream --predicate 'subsystem == "com.apple.UVCExtension" and composedMessage contains "Post PowerLog"' | while read line
 do
     if echo "$line" | grep -E '"VDCAssistant_Power_State" = On;' > /dev/null; then
-        curl_hass "turn_on"
+        Curl_Hass "turn_on"
     fi
     if echo "$line" | grep -E '"VDCAssistant_Power_State" = Off;' > /dev/null; then
-        curl_hass "turn_off"
+        Curl_Hass "turn_off"
     fi
 done
