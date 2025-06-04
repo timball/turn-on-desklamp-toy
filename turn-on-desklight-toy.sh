@@ -3,6 +3,8 @@
 # -o pipefail   pipe returns exit status of last command that failed
 # -u nounset    not allowed to use unset variables
 #
+# -x print out each line as it executes FOR DEBUGGING
+#
 # On OSX toggles a Home Assistant smart light if camera
 # video stream is turned toggled on or off
 #
@@ -17,7 +19,10 @@
 #
 # Tue Jan 14 20:32:06 EST 2025
 
-source sekrits.sh
+# figure out where the script is being called from
+DIRNAME=$(dirname ${0})
+
+source ${DIRNAME}/sekrits.sh
 
 DEVICE=$(echo ${HASS_DEVICE} | cut -d'.' -f1)
 
