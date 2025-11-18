@@ -1,0 +1,5 @@
+cattrs
+dataclasses
+pyyaml
+requests
+threading

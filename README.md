@@ -9,8 +9,17 @@ a desk light controlled by [Home Assistant](https://www.home-assistant.io/).
 This script uses OSX `log(1)` tool to detect the state of the camera video device
 an then `curl(1)`Home Assistant API to turn on a light.
 
-Configure it by editing `sekrits.sh` and then executing
-the `./turn-on-desklight-toy.sh` command out of this directory
+## To Run
+1. Configure it by editing `config.yaml`. 
+
+2. Create a virtual environment and install the required python dependancies.
+    `uv pip install`
+    `virtualenv virt && source virt/bin/activate && pip install -r requirements.txt`
+
+3. Execute the script
+    `python camera-lights.py config.yaml`
+
+4. Create an OSX automator to execute the script in an App suitable for startup.
 
 ## Thanks and Credit
 - https://github.com/akburg/elgatokeylight 
