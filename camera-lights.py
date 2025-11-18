@@ -2,7 +2,9 @@
 #
 # Script to set lights in home assistant when osx camera turns on
 #   make this an app w/ automator and have it start at startup
+#
 # --timball@gmail.com
+#
 # Mon Nov 17 21:14:27 EST 2025
 
 import cattrs
@@ -126,37 +128,6 @@ def set_LightLevel(state: bool):
     return True
 
 
-""" NOT USING THIS
-@debounce(2)
-def send_hass_req(st: CameraState) -> str:
-    sleep (0.8)
-    base_url = f"http://{c.SERVER}/api/services/{st.service}/{st.method}"
-
-    payload = ""
-
-    if st.method == "turn_on" and st.service == "light":
-        payload = json.dumps({
-          "entity_id": f"{st.service}.{st.entity}",
-          "brightness": f"{st.level}"
-        })
-    elif st.service == "switch":
-        payload = json.dumps({
-          "entity_id": f"{st.service}.{st.entity}",
-        })
-    else:
-        payload = json.dumps({
-          "entity_id": f"{st.service}.{st.entity}",
-        })
-
-    headers = {
-      'Content-Type': 'application/json',
-      'Authorization': f"Bearer {c.AUTH_KEY}"
-    }
-
-    resp = requests.request("POST", base_url, headers=headers, data=payload)
-    return("ok")
-"""
-
 def watch_camera_state():
     """
     okay here's what we have to do:
@@ -270,5 +241,7 @@ if __name__ ==  "__main__":
 
     #LOG.info("---- simulate camera on")
     #set_LightLevel(True)
+
+    # third watch the camera state and activate lights
     watch_camera_state()
 
