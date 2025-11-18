@@ -13,8 +13,8 @@ an then `curl(1)`Home Assistant API to turn on a light.
 1. Configure it by editing `config.yaml`. 
 
 2. Create a virtual environment and install the required python dependancies.
-    a. `uv pip install`
-    b. `virtualenv virt && source virt/bin/activate && pip install -r requirements.txt`
+    1. `uv pip install`
+    2. `virtualenv virt && source virt/bin/activate && pip install -r requirements.txt`
 
 3. Execute the script
     `python camera-lights.py config.yaml`
