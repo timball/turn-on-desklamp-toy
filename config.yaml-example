@@ -1,0 +1,38 @@
+# config file for turn-on-desklight-toy
+
+# home assistant info
+- hass_server: <yourhomeassistant.address.and:port>
+
+# obtain home assistant REST token docs https://developers.home-assistant.io/docs/api/rest/
+- hass_auth: <your very long and secure REST API token from your home assistant>
+
+# Light definitions for the lights you want to control
+- name: <free form name of light that doesn't do much for us>
+  service: <the home assistant service but probably light|switch>
+  entity: <the name of the device in home assistant>
+  on_level: <for dimmable lights the brightness value you want when the camera is ON 0-255>
+  off_level: <for dimmable lights the brightness value you want when the camera if OFF 0-255>
+
+# some example configs
+- name: office_overhead_lights
+  service: light
+  entity: "office_lights"
+  on_level: 32
+  off_level: 224
+
+- name: ring_key_light
+  service: switch
+  entity: smart_switch_1
+  # on_level and off_level are ignored for switches bc they're binary
+
+- name: fill_light
+  service: light
+  entity: office_fill_light
+  on_level: 64
+  off_level: 0
+
+- name: back_light
+  service: light
+  entity: office_back_light
+  on_level: 128
+  off_level: 0
