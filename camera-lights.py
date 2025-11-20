@@ -104,7 +104,7 @@ def debounce(wait_time):
     return decorator
 
 
-#@debounce
+@debounce
 def set_LightLevel(state: bool):
     """ why do I need to put a line here? """
     LOG.debug("in set_lightLevel")
