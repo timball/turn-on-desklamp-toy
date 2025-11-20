@@ -18,17 +18,17 @@ import threading
 import time
 import yaml
 
-#import pprint
+import pprint
 
 from dataclasses import dataclass
 from datetime import datetime
 from time import sleep
 from typing import Dict, List, Optional
 
-# setup some loggint stuff
+# setup some logging stuff
 LOG = logging.getLogger(__name__)
 FORMAT = "[%(filename)s:%(lineno)s - %(funcName)20s() ] %(message)s"
-logging.basicConfig(level=logging.DEBUG, format=FORMAT)
+logging.basicConfig(level=logging.INFO, format=FORMAT)
 
 
 ## global variables
@@ -104,9 +104,11 @@ def debounce(wait_time):
     return decorator
 
 
-@debounce
+#@debounce
 def set_LightLevel(state: bool):
-    #sleep (0.8)
+    """ why do I need to put a line here? """
+    LOG.debug("in set_lightLevel")
+    sleep (0.8)
 
     base_url = ''
     payload = dict()
@@ -131,10 +133,10 @@ def set_LightLevel(state: bool):
 def watch_camera_state():
     """
     okay here's what we have to do:
-    1. use subprocess.Popen to read `log` command output
+    1. Use subprocess.Popen to read `log` command output
         a. Buffering:
             If you need truly unbuffered output (byte-by-byte), you might need to set bufsize=0 and read using process.stdout.read(1). For line-buffered output, bufsize=1 and text=True is often sufficient.
-    2. use requests to send request to endpoint
+    2. Use requests to send request to endpoint
     """
 
     cmd = r"log stream --predicate"
@@ -163,11 +165,9 @@ def watch_camera_state():
         if "VDCAssistant_Power_State" in output_line:
             if "Off" in output_line:
                 # send the off camera state
-                LOG.info(f"camera state is off {datetime.now()}")
                 set_LightLevel(CAMERA_OFF)
             elif "On" in output_line:
                 # send the on camera state
-                LOG.info(f"camera state is on {datetime.now()}")
                 set_LightLevel(CAMERA_ON)
             else:
                 LOG.warning(f"state is unknown: {outputline}")
@@ -228,15 +228,15 @@ def create_CameraStates():
 if __name__ ==  "__main__":
     # first import configs
     read_configs()
-    #LOG.info(pprint.pformat(c.LIGHTS))
-    #LOG.info(f"auth_key: {c.AUTH_KEY}")
-    #LOG.info(f"server: {c.SERVER}")
+    LOG.debug(pprint.pformat(c.LIGHTS))
+    LOG.debug(f"auth_key: {c.AUTH_KEY}")
+    LOG.debug(f"server: {c.SERVER}")
 
     # second setup the list of CameraStates
     create_CameraStates()
-    #LOG.info(pprint.pformat(CAM_ST))
+    LOG.debug(pprint.pformat(CAM_ST))
 
-    #LOG.info("---- simulate camera off")
+    LOG.debug("---- simulate camera off")
     #set_LightLevel(False)
 
     #LOG.info("---- simulate camera on")
