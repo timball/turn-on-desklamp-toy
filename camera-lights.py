@@ -28,6 +28,7 @@ from typing import Dict, List, Optional
 # setup some logging stuff
 LOG = logging.getLogger(__name__)
 FORMAT = "[%(filename)s:%(lineno)s - %(funcName)20s() ] %(message)s"
+#logging.basicConfig(level=logging.DEBUG, format=FORMAT)
 logging.basicConfig(level=logging.INFO, format=FORMAT)
 
 
@@ -79,6 +80,7 @@ def debounce(wait_time):
         time.sleep(1.2) # Wait longer than debounce time
         my_function("Call 4")
     """
+    LOG.debug('in debounce')
     def decorator(func):
         last_call_time = 0
         timer = None
@@ -104,11 +106,11 @@ def debounce(wait_time):
     return decorator
 
 
-@debounce
+@debounce(0.8)
 def set_LightLevel(state: bool):
     """ why do I need to put a line here? """
     LOG.debug("in set_lightLevel")
-    sleep (0.8)
+    #sleep (0.8)
 
     base_url = ''
     payload = dict()
@@ -144,6 +146,8 @@ def watch_camera_state():
     cmd_list = cmd.split()
     cmd_list.append(arg)
 
+    LOG.debug(cmd_list)
+
     # Set PYTHONUNBUFFERED=1 to potentially unbuffer output from Python child processes
     env = os.environ.copy()
     env['PYTHONUNBUFFERED'] = '1'
@@ -160,14 +164,19 @@ def watch_camera_state():
     LOG.info("Monitoring Camera State")
     while True:
         output_line = process.stdout.readline()
+        LOG.debug(output_line)
         if output_line == '' and process.poll() is not None:
+            LOG.debug('breaking')
             break
         if "VDCAssistant_Power_State" in output_line:
+            LOG.debug('found VDCAssistant_Power_State')
             if "Off" in output_line:
                 # send the off camera state
+                LOG.debug('CAMERA_OFF')
                 set_LightLevel(CAMERA_OFF)
             elif "On" in output_line:
                 # send the on camera state
+                LOG.debug('CAMERA_ON')
                 set_LightLevel(CAMERA_ON)
             else:
                 LOG.warning(f"state is unknown: {outputline}")
@@ -236,11 +245,14 @@ if __name__ ==  "__main__":
     create_CameraStates()
     LOG.debug(pprint.pformat(CAM_ST))
 
-    LOG.debug("---- simulate camera off")
-    #set_LightLevel(False)
-
     #LOG.info("---- simulate camera on")
     #set_LightLevel(True)
+
+    #LOG.debug("---- sleep 4s")
+    #time.sleep(4)
+
+    #LOG.debug("---- simulate camera off")
+    #set_LightLevel(False)
 
     # third watch the camera state and activate lights
     watch_camera_state()
